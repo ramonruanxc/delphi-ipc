@@ -33,24 +33,23 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      # setup-lazarus installs FPC and puts it on PATH for every later step,
+      # which the choco + Update-SessionEnvironment route did not do reliably.
       - name: Install Free Pascal
-        shell: pwsh
-        run: |
-          choco install freepascal --no-progress -y
-          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-          Update-SessionEnvironment
-          fpc -iV
+        uses: gcarreno/setup-lazarus@v3
+        with:
+          lazarus-version: stable
+      - name: Show compiler version
+        shell: bash
+        run: fpc -iV
+      # bash (git-bash on the Windows runner) makes ./build/WinTests.exe and
+      # forward-slash paths behave, and fails the step on a non-zero exit.
       - name: Build and run full suite (framing + transport)
-        shell: pwsh
+        shell: bash
         run: |
-          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-          Update-SessionEnvironment
-          New-Item -ItemType Directory -Force -Path build | Out-Null
+          mkdir -p build
           fpc -Mdelphi -Fusrc -Futests -FUbuild -obuild/WinTests tests/WinTests.dpr
           ./build/WinTests.exe
       - name: Build the demo
-        shell: pwsh
-        run: |
-          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-          Update-SessionEnvironment
-          fpc -Mdelphi -Fusrc -FUbuild -obuild/Demo demo/Demo.dpr
+        shell: bash
+        run: fpc -Mdelphi -Fusrc -FUbuild -obuild/Demo demo/Demo.dpr
