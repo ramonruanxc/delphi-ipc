@@ -92,4 +92,9 @@ begin
     WriteLn('  Demo.exe server');
     WriteLn('  Demo.exe client "message text"');
   end;
+
+  { Holds the console open when the demo is launched from the IDE, which
+    otherwise closes the window before the output can be read. The server path
+    never reaches this — it loops until Ctrl+C. }
+  ReadLn;
 end.
