@@ -15,9 +15,13 @@ program WinTests;
 {$ENDIF}
 
 uses
-  WinIPC.Testing,
-  WinIPC.Tests.Message,
-  WinIPC.Tests.Integration;
+  { Every project unit is listed with its path, including the ones only reached
+    indirectly, so the project builds from a clone with nothing to configure. }
+  WinIPC.Message in '../src/WinIPC.Message.pas',
+  WinIPC.Win in '../src/WinIPC.Win.pas',
+  WinIPC.Testing in 'WinIPC.Testing.pas',
+  WinIPC.Tests.Message in 'WinIPC.Tests.Message.pas',
+  WinIPC.Tests.Integration in 'WinIPC.Tests.Integration.pas';
 
 var
   Runner: TTestRunner;

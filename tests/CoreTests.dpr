@@ -14,8 +14,11 @@ program CoreTests;
 {$ENDIF}
 
 uses
-  WinIPC.Testing,
-  WinIPC.Tests.Message;
+  { Every project unit is listed with its path, including the ones only reached
+    indirectly, so the project builds from a clone with nothing to configure. }
+  WinIPC.Message in '../src/WinIPC.Message.pas',
+  WinIPC.Testing in 'WinIPC.Testing.pas',
+  WinIPC.Tests.Message in 'WinIPC.Tests.Message.pas';
 
 var
   Runner: TTestRunner;

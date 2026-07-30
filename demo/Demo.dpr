@@ -1,4 +1,4 @@
-{
+﻿{
   WinIPC demo — two real processes talking over WM_COPYDATA.
 
   Build it, then open two consoles:
@@ -25,8 +25,11 @@ program Demo;
 
 uses
   {$IFDEF FPC}Windows, SysUtils{$ELSE}Winapi.Windows, System.SysUtils{$ENDIF},
-  WinIPC.Message,
-  WinIPC.Win;
+  { Explicit paths so the project builds straight from a clone with no search
+    path to configure. Forward slashes on purpose: Delphi accepts them on
+    Windows and Free Pascal needs them on Linux. }
+  WinIPC.Message in '../src/WinIPC.Message.pas',
+  WinIPC.Win in '../src/WinIPC.Win.pas';
 
 const
   Channel = 'winipc-demo';
