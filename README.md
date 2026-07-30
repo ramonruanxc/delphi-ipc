@@ -120,8 +120,8 @@ thread, a worker thread sending to it — which exercises the same kernel
 marshalling path as a true cross-process send, without a second executable:
 
 ```
-fpc -Mdelphi -Fusrc -Futests -FUbuild -obuild/WinTests tests/WinTests.dpr
-./build/WinTests
+fpc -Mdelphi -Fusrc -Futests -FUbuild -obuild/WinTests.exe tests/WinTests.dpr
+./build/WinTests.exe
 ```
 
 CI runs both: the framing job on Linux, the transport job on Windows.

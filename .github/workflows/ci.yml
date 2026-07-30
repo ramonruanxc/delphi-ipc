@@ -48,8 +48,10 @@ jobs:
         shell: bash
         run: |
           mkdir -p build
-          fpc -Mdelphi -Fusrc -Futests -FUbuild -obuild/WinTests tests/WinTests.dpr
+          # Explicit .exe: 64-bit FPC does not append it to an extension-less
+          # -o the way 32-bit does, so name the output exactly.
+          fpc -Mdelphi -Fusrc -Futests -FUbuild -obuild/WinTests.exe tests/WinTests.dpr
           ./build/WinTests.exe
       - name: Build the demo
         shell: bash
-        run: fpc -Mdelphi -Fusrc -FUbuild -obuild/Demo demo/Demo.dpr
+        run: fpc -Mdelphi -Fusrc -FUbuild -obuild/Demo.exe demo/Demo.dpr
