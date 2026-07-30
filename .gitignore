@@ -1,0 +1,26 @@
+# Build output
+build/
+bin/
+*.exe
+*.dcu
+*.ppu
+*.o
+*.a
+*.compiled
+*.identcache
+*.local
+*.dsk
+*.map
+*.res
+__history/
+__recovery/
+Win32/
+Win64/
+
+# Boss
+modules/
+boss-lock.json
+
+# Editors
+.vscode/
+.idea/

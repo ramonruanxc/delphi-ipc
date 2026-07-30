@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # The framing is portable Object Pascal, so it is tested on Linux where the
+  # toolchain is free — this is the bulk of the logic and where a parsing or
+  # length bug would live.
+  core:
+    name: Framing (Free Pascal, Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Free Pascal
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fpc
+          fpc -iV
+      - name: Build and run framing tests
+        run: |
+          mkdir -p build
+          fpc -Mdelphi -Fusrc -Futests -FUbuild -obuild/CoreTests tests/CoreTests.dpr
+          ./build/CoreTests
+
+  # The WM_COPYDATA transport is Windows-only, so it is built and run on a
+  # Windows runner. This job also compiles the demo, so a broken demo fails CI.
+  transport:
+    name: Transport (Free Pascal, Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Free Pascal
+        shell: pwsh
+        run: |
+          choco install freepascal --no-progress -y
+          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+          Update-SessionEnvironment
+          fpc -iV
+      - name: Build and run full suite (framing + transport)
+        shell: pwsh
+        run: |
+          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+          Update-SessionEnvironment
+          New-Item -ItemType Directory -Force -Path build | Out-Null
+          fpc -Mdelphi -Fusrc -Futests -FUbuild -obuild/WinTests tests/WinTests.dpr
+          ./build/WinTests.exe
+      - name: Build the demo
+        shell: pwsh
+        run: |
+          Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+          Update-SessionEnvironment
+          fpc -Mdelphi -Fusrc -FUbuild -obuild/Demo demo/Demo.dpr

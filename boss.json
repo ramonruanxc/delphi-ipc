@@ -1,0 +1,9 @@
+{
+  "name": "github.com/ramonruanxc/delphi-ipc",
+  "description": "Send structured messages between Windows processes over WM_COPYDATA, with a portable, tested frame.",
+  "version": "1.0.0",
+  "homepage": "https://github.com/ramonruanxc/delphi-ipc",
+  "mainsrc": "src",
+  "license": "MIT",
+  "dependencies": {}
+}
