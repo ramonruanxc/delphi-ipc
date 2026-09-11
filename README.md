@@ -24,6 +24,14 @@ TIpcClient.Send('my-channel', Msg);
 
 ---
 
+## Execution flow
+
+![Execution flow of delphi-ipc](docs/images/architecture-flow.png)
+
+The client encodes a message and sends it synchronously through Windows
+WM_COPYDATA. The receiving application pumps its message-only window, validates
+the frame and invokes its callback on that window's owning thread.
+
 ## Install
 
 With [Boss](https://github.com/HashLoad/boss):
