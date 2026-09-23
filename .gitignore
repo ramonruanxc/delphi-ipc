@@ -7,11 +7,21 @@ bin/
 *.o
 *.a
 *.compiled
-*.identcache
-*.local
-*.dsk
 *.map
 *.res
+
+# Delphi IDE artifacts. No .dproj is tracked: opening a .dpr makes the IDE
+# generate one for whatever Delphi version is installed, which is what lets
+# XE7 and Delphi 12 open the same checkout.
+*.dproj
+*.dproj.local
+*.local
+*.identcache
+*.dsk
+*.stat
+*.tvsconfig
+*.rsm
+*.drc
 __history/
 __recovery/
 Win32/
