@@ -55,3 +55,8 @@ jobs:
       - name: Build the demo
         shell: bash
         run: fpc -Mdelphi -Fusrc -FUbuild -obuild/Demo.exe demo/Demo.dpr
+      # With no arguments the demo starts a second copy of itself as the sender
+      # and exits non-zero unless the message crossed the process boundary.
+      - name: Run the demo (two processes, one launch)
+        shell: bash
+        run: ./build/Demo.exe
