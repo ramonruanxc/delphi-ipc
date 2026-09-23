@@ -1,4 +1,4 @@
-{
+﻿{
   WinIPC — portable framing tests.
 
   These run on both Delphi and Free Pascal and are the CI coverage on Linux,

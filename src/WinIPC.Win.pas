@@ -111,6 +111,14 @@ const
   HWND_MESSAGE = HWND(-3);
 {$ENDIF}
 
+{ Older Delphi RTLs (XE7 among them) may not declare GetTickCount64 in
+  Winapi.Windows. Binding the kernel32 export (Vista and later) here keeps
+  PumpFor compiling there; where the RTL does declare it, this unit's own
+  declaration simply takes precedence. FPC's Windows unit has it. }
+{$IFNDEF FPC}
+function GetTickCount64: UInt64; stdcall; external 'kernel32.dll';
+{$ENDIF}
+
 function ChannelClassName(const AChannel: string): string;
 begin
   Result := 'WinIPC.' + AChannel;
