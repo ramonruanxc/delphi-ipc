@@ -22,6 +22,48 @@ Msg.Payload := 'hello, other process';
 TIpcClient.Send('my-channel', Msg);
 ```
 
+## Quick start
+
+```
+git clone https://github.com/ramonruanxc/delphi-ipc.git
+cd delphi-ipc
+```
+
+**Delphi XE7 or later** — open `demo/Demo.dpr` and press F9. There is nothing
+to configure: every unit is referenced from the `.dpr` with its path, and the
+IDE creates its own project file for your Delphi version. Win32 is the default
+target; for Win64, add the *Windows 64-bit* platform under *Target Platforms*
+in the Project Manager and press F9 again. Under the debugger the console waits
+for Enter so the result stays readable.
+
+**Free Pascal 3.2.2** — from the repository root, one command builds and runs
+it (cmd.exe or PowerShell 7+; in Git Bash write `demo/Demo.exe`):
+
+```
+fpc demo/Demo.dpr && demo\Demo.exe
+```
+
+Expected output (process ids vary):
+
+```
+WinIPC demo: one message between two processes over WM_COPYDATA
+  receiver  pid 60736  listening on "winipc-demo-60736"
+  sender    pid 29504  started as a separate process
+  received  kind=1  "hello from another process"
+  sender    delivered.
+OK: process 29504 sent "hello from another process" to process 60736 over WM_COPYDATA.
+```
+
+The demo starts a second copy of itself as the sender, so the message really
+crosses a process boundary. It exits with code 0 after the `OK:` line, or
+prints `FAILED:` and exits with 1.
+
+**Compiler status.** Free Pascal 3.2.2 is verified in CI: framing tests on
+Linux; transport tests, demo build and demo run on Windows. Delphi XE7 and
+later is the intended target, but no Delphi compiler has built or run this
+code yet (Community Edition refuses command-line builds), so treat Delphi
+support as untested and please report anything F9 turns up.
+
 ---
 
 ## Execution flow
@@ -40,9 +82,9 @@ With [Boss](https://github.com/HashLoad/boss):
 boss install github.com/ramonruanxc/delphi-ipc
 ```
 
-Or add `src` to your search path. Requires Delphi 10.1 Berlin or later, or Free
-Pascal 3.2 with `-Mdelphi`. The transport is Windows-only; the framing builds
-anywhere.
+Or add `src` to your search path. Targets Delphi XE7 or later (not yet
+compiled with Delphi, see *Compiler status* above) and Free Pascal 3.2 in
+Delphi mode. The transport is Windows-only; the framing builds anywhere.
 
 ## How it works
 
@@ -105,13 +147,20 @@ Every `.dpr` lists its units with explicit `in '...'` paths, so **opening one in
 the Delphi IDE and pressing build works with nothing to configure** — no search
 path, no library path.
 
-Free Pascal resolves units from `-Fu` rather than from the `in` clause, so a
-manual FPC build needs the paths on the command line. Every example below
-includes them.
+Free Pascal honours the `in` clause too, but resolves it against the current
+directory rather than the `.dpr`'s, so a build from the repository root adds
+`-Fusrc` (and `-Futests` for the test suites). Every example below includes
+them.
+
+Sources are UTF-8. The files whose string literals contain non-ASCII text
+start with a UTF-8 BOM, so that Delphi reads them as UTF-8 instead of the
+system ANSI code page; Free Pascal honours the same BOM.
 
 ## Demo
 
-`demo/Demo.dpr` is two real processes. Build it, then:
+`demo/Demo.dpr` is two real processes. Run with no arguments (see *Quick
+start*), it receives in its own process and starts a second copy of itself to
+send. To drive the two sides by hand instead, open two consoles:
 
 ```
 Demo.exe server

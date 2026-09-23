@@ -1,4 +1,4 @@
-{
+﻿{
   WinIPC — Windows transport tests.
 
   A real WM_COPYDATA round trip, in one process: the server owns a message-only

@@ -73,9 +73,11 @@ end.
 ## Verification status
 
 - Framing and transport both compile and pass under FPC 3.2.2 on Windows.
-- The two-process demo was smoke-tested by hand (server + two clients).
+- The two-process demo runs in one launch (it spawns its own sender process)
+  and is built and run in the Windows CI job; the manual server + client mode
+  was smoke-tested by hand.
 - Not verified under Delphi's compiler (Community Edition blocks command-line
-  builds); the code targets Delphi 10.1+ and uses only long-standing RTL and
+  builds); the code targets Delphi XE7+ and uses only long-standing RTL and
   Win32 APIs.
 
 ## Out of scope

@@ -20,5 +20,11 @@ project and rebuilt as a standalone, tested component.
 - A portable framing test suite run on Linux, plus a Windows test that performs
   a real cross-thread WM_COPYDATA round trip; both run in CI (Linux + Windows
   jobs). 19 assertions in total.
-- A two-process demo (`Demo.exe server` / `Demo.exe client "..."`).
+- A two-process demo: with no arguments it starts a second copy of itself as
+  the sender and prints one `OK:` / `FAILED:` line (run in CI); `Demo.exe
+  server` / `Demo.exe client "..."` drive the two sides by hand.
+- Clone-and-run: the demo opens and runs from a fresh clone in the Delphi IDE
+  (XE7 or later, not yet verified with a Delphi compiler) or with a single Free
+  Pascal command; no `.dproj` is tracked, and files with non-ASCII string
+  literals carry a UTF-8 BOM so Delphi reads them as UTF-8.
 - `boss.json` for installation through Boss.

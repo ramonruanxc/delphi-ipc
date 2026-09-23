@@ -3,7 +3,7 @@
   transport. Windows only.
 
     Free Pascal   fpc -Mdelphi -Fu../src -Fu. WinTests.dpr
-    Delphi        add ../src and . to the search path, build in the IDE
+    Delphi        open this file in the IDE and build; nothing to configure
 }
 program WinTests;
 
