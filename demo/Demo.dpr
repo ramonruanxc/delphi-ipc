@@ -14,7 +14,7 @@
   Building needs nothing configured:
 
     Delphi        open demo/Demo.dpr (XE7 or later) and press F9
-    Free Pascal   fpc -Fusrc -FUdemo demo/Demo.dpr    (from the repository root)
+    Free Pascal   fpc demo/Demo.dpr    (from the repository root)
 
   Exit code 0 means the message was delivered. Windows only, like the transport
   it demonstrates.
@@ -23,6 +23,9 @@ program Demo;
 
 {$IFDEF FPC}
   {$MODE DELPHI}
+  { FPC resolves in-paths from the working directory; UNITPATH is relative
+    to this file, so the command above works from the repository root. }
+  {$UNITPATH ../src}
   {$H+}
 {$ELSE}
   {$APPTYPE CONSOLE}

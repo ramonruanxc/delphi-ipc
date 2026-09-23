@@ -40,7 +40,7 @@ for Enter so the result stays readable.
 it (cmd.exe or PowerShell 7+; in Git Bash write `demo/Demo.exe`):
 
 ```
-fpc -Fusrc -FUdemo demo/Demo.dpr && demo\Demo.exe
+fpc demo/Demo.dpr && demo\Demo.exe
 ```
 
 Expected output (process ids vary):
